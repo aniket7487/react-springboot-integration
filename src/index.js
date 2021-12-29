@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import BroadBand from './Components/BroadBand';
 
+const json = {
+  question: 'Gender',
+  choices:
+  [
+    { text: 'Male', value: '1' },
+    { text: 'Female', value: '2' }
+  ]
+}
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BroadBand model={json} />
   </React.StrictMode>,
   document.getElementById('root')
 );
