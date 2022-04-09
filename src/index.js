@@ -4,18 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import BroadBand from './Components/BroadBand';
+import BroadbandFunctional from './Components/Broadband/BroadbandFunctional';
+import UseHook from './Components/UseHook';
+import FormsWithValidation from './Components/Broadband/FormsWithValidation';
+import CheckboxMultiple from './Components/Broadband/CheckboxMultiple';
 
 const json = {
   question: 'Gender',
   choices:
   [
-    { text: 'Male', value: '1' },
-    { text: 'Female', value: '2' }
+    { text: 'Male', value: 'M' },
+    { text: 'Female', value: 'F' }
   ]
 }
 ReactDOM.render(
   <React.StrictMode>
-    <BroadBand model={json} />
+    {/* <BroadBand model={json} /> */}
+    <BroadbandFunctional/>
+    {/* <FormsWithValidation/>  */}
+    {/* <UseHook/> */}
+    {/* <CheckboxMultiple/> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
