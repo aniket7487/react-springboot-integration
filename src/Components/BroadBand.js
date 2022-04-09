@@ -3,7 +3,9 @@ import {Container,Button,Row,Col,Spinner,Alert,DropdownButton,Dropdown } from 'r
 
 import Axios from 'axios';
 import PollOption from './PollOption';
-
+import FileSaver from 'file-saver';
+import { getDefaultNormalizer } from '@testing-library/react';
+import axios from 'axios';
 
 const BroadBand=(model)=> {
     const [response, setResponse] = useState("");
@@ -22,13 +24,60 @@ const BroadBand=(model)=> {
             first:firstName,
             last:lastName,
             country:country,
-            state:state
+            state:state,
+            gender:selectedOption
         })
         .then((res)=>{
             console.log(res);
             const data=res.data;
             setResponse(data);
             setIsLoader(false);
+        })
+        
+        
+      }
+
+    const getAdd=()=>{
+        let add="http://localhost:8080/exportToExcel";
+        return axios({add,method:'GET',responseType:'blob'});
+    };
+    const downloadExcel=async ()=>{
+        let add="http://localhost:8080/exportToExcel";
+        setIsLoader(true);
+        Axios.get({url:'http://localhost:8080/exportToExcel',responseType:'blob'})
+        // getAdd()
+        .then((response)=>{
+            console.log(response);
+            const data=response.data;
+            // let url = window.URL.createObjectURL(new Blob([response.data]));
+            // let a = document.createElement('a');
+            // a.href = url;
+            // const fileName = 'downloadHistory.xlsx';
+            // a.setAttribute('download', fileName);
+            // document.body.appendChild(a);
+            // a.click();
+
+            // const url = window.URL.createObjectURL(new Blob([response.data], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
+            // const link = document.createElement("a");
+            // link.href = url;
+            // link.setAttribute("download",  "Data.xlsx");
+            // document.body.appendChild(link);
+            // link.click();
+
+            var blob = new Blob([response.data], {type:'application/octet-stream'});
+            console.log(blob);
+            FileSaver.saveAs(blob, "excel.xlsx");
+
+        //     const filename =  "Data.xlsx";
+        // response.blob().then(blob => {
+        //   let url = window.URL.createObjectURL(blob);
+        //   let a = document.createElement('a');
+        //   a.href = url;
+        //   a.download = filename;
+        //   a.click();
+    //   });
+        }).catch(error=>{
+            console.log("ERROR");
         })
         
         
@@ -98,6 +147,8 @@ const BroadBand=(model)=> {
                     </Spinner> : null}
                     <Button onClick={fetchDetails} className='btn btn-primary m-3'>Submit</Button>
                     <Button className='btn btn-danger m-3'>Cancel</Button>
+                    <Button onClick={downloadExcel} className='btn btn-danger m-3'>Download</Button>
+                    <a href="/@{/exportToExcel}">Export to Excel</a>
                 </Col>
             </Row>
             <Row className="justify-content-md-center">
